@@ -238,7 +238,7 @@ adapter only to get approximate counts or query-history mining.
    from schema_scout.database.dialects.base import ApproxDistinctMixin, DialectAdapter
 
 
-   class MyDbAdapter(ApproxDistinctMixin, DialectAdapter):   # drop the mixin for exact counts
+   class MyDbAdapter(ApproxDistinctMixin, DialectAdapter):  # drop the mixin for exact counts
        name = "mydb"
 
        def query_history_sql(self, days: int) -> str:
