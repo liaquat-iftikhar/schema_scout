@@ -1,0 +1,12 @@
+.git
+.github
+.venv
+**/__pycache__
+.pytest_cache
+.ruff_cache
+*.egg-info
+tests
+erd_output
+erd_agent.py
+.env
+.env.*
