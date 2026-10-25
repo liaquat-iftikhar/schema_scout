@@ -1,0 +1,44 @@
+# Non-secret settings, one section per environment. Safe to commit.
+# `default` is always loaded; the selected environment is merged over it.
+# Select with --env, or SCHEMA_SCOUT_ENV=production (falls back to "local").
+#
+# Credentials NEVER go in this file (loading fails if they do). Set them as environment variables:
+#   SCHEMA_SCOUT_DATABASE__PASSWORD   database password / access token
+#   ANTHROPIC_API_KEY or OPENAI_API_KEY   (or SCHEMA_SCOUT_LLM__API_KEY)
+# Any other value can be overridden the same way, e.g. SCHEMA_SCOUT_LLM__MODEL=claude-opus-5-5
+
+default:
+  llm:
+    provider: anthropic          # anthropic | openai (openai also covers OpenAI-compatible servers)
+    model: claude-sonnet-5-5
+    max_tokens: 8000
+    # base_url: http://localhost:11434/v1   # e.g. Ollama / vLLM with provider: openai
+  agent:
+    # Guard rail on LLM turns. The agent normally runs until the model calls submit_model;
+    # null means no limit, a number fails the run if it is reached first.
+    max_turns: null
+    max_tool_chars: 15000
+
+local:
+  # Connection details become a SQLAlchemy URL: drivername://username:<password>@host:port/database?query
+  database:
+    drivername: postgresql+psycopg2
+    host: localhost
+    port: 5432
+    database: postgres
+    username: postgres
+
+production:
+  # Use a read-only database user. Examples for other platforms:
+  #   mysql+pymysql            host, port, database, username
+  #   snowflake                host: <account>, database: <db>/<schema>, query: {warehouse: WH, role: READONLY}
+  #   databricks               host, username: token, query: {http_path: /sql/1.0/warehouses/xxxx, catalog: main}
+  #   bigquery                 host: <project>, database: <dataset>
+  database:
+    drivername: postgresql+psycopg2
+    host: db.example.com
+    port: 5432
+    database: analytics
+    username: schema_scout_readonly
+  agent:
+    max_turns: 60                # guard rail for unattended runs
