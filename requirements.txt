@@ -1,0 +1,24 @@
+# Runtime dependencies. pyproject.toml is the source of truth; keep this file in sync with it.
+sqlalchemy>=1.4
+dynaconf>=3.2
+pyyaml
+
+# LLM provider SDK (settings.yaml: llm.provider) - keep the one you use
+anthropic
+# openai
+
+# Database driver (settings.yaml: database.drivername) - keep the one you use
+databricks-sql-connector
+databricks-sqlalchemy
+# psycopg2-binary          # postgres
+# sqlalchemy-redshift      # redshift
+# redshift_connector
+# pymysql                  # mysql / mariadb
+# snowflake-sqlalchemy     # snowflake
+# sqlalchemy-bigquery      # bigquery
+# pyodbc                   # mssql
+# oracledb                 # oracle
+
+# Development: pytest, ruff (or `pip install -e ".[dev]"`)
+# pytest
+# ruff

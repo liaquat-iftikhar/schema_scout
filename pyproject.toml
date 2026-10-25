@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "schema-scout"
+version = "0.1.0"
+description = "Claude agent that reverse-engineers ERDs from any SQL database or data warehouse"
+requires-python = ">=3.10"
+dependencies = [
+    "sqlalchemy>=1.4",
+    "dynaconf>=3.2",
+    "pyyaml",
+]
+
+# Install the LLM provider SDK and database driver(s) you need, e.g. pip install -e ".[postgres]"
+[project.optional-dependencies]
+dev = ["pytest", "ruff"]
+anthropic = ["anthropic"]
+openai = ["openai"]
+databricks = ["databricks-sql-connector", "databricks-sqlalchemy"]
+postgres = ["psycopg2-binary"]
+redshift = ["sqlalchemy-redshift", "redshift_connector"]
+mysql = ["pymysql"]
+snowflake = ["snowflake-sqlalchemy"]
+bigquery = ["sqlalchemy-bigquery"]
+mssql = ["pyodbc"]
+oracle = ["oracledb"]
+
+[project.scripts]
+schema-scout = "schema_scout.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["schema_scout*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+extend-exclude = ["erd_agent.py"]  # superseded single-file original
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]  # line length is handled by `ruff format`
