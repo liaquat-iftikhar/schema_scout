@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM python:3.12-slim AS builder
+FROM python:3.15-slim AS builder
 # Choose the LLM provider and database driver extras baked into the image,
 # e.g. docker build --build-arg EXTRAS=openai,snowflake .
 ARG EXTRAS=anthropic,databricks
@@ -9,7 +9,7 @@ COPY pyproject.toml ./
 COPY schema_scout ./schema_scout
 RUN pip install --no-cache-dir --prefix=/install ".[${EXTRAS}]"
 
-FROM python:3.12-slim
+FROM python:3.15-slim
 RUN useradd --create-home --uid 10001 scout
 COPY --from=builder /install /usr/local
 WORKDIR /app
